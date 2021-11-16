@@ -42,11 +42,11 @@ public class Main {
 
             System.out.printf("array: %s%n%n", Arrays.toString(arr));
             ResultSort resultShell = sortShell(arr);
-            System.out.printf("for Shell sort count = %d, sorted array = %s%n%n",
-                    resultShell.getCount(), Arrays.toString(resultShell.getArr()));
+            System.out.printf("for Shell sort count comparison  = %d, count permutation  = %d, sorted array = %s%n%n",
+                    resultShell.getCountComparison(), resultShell.getCountPermutation(), Arrays.toString(resultShell.getArr()));
             ResultSort resultBubble = sortBubble(arr);
-            System.out.printf("for bubble sort count = %d, sorted array = %s%n%n",
-                    resultBubble.getCount(), Arrays.toString(resultBubble.getArr()));
+            System.out.printf("for bubble count comparison  = %d, count permutation  = %d, sorted array = %s%n%n",
+                    resultBubble.getCountComparison(), resultBubble.getCountPermutation(), Arrays.toString(resultBubble.getArr()));
             System.out.println("--------------------------------------");
         }
 
@@ -54,32 +54,37 @@ public class Main {
 
     public static ResultSort sortShell(int[] sortableArr) {
         int[] array = sortableArr.clone();
-        int count = 0;
+        int countComp = 0;
+        int countPerm = 0;
         int h = 1;
         while (h*3 < array.length)
             h = h * 3 + 1;
 
         while(h >= 1) {
-            count += hSort(array, h);
-            h = h/3;
+            ResultSort hSortResult = hSort(array, h);
+            countComp += hSortResult.getCountComparison();
+            countPerm += hSortResult.getCountPermutation();
+            h = h / 3;
         }
-        return new ResultSort(array, count);
+        return new ResultSort(array, countComp, countPerm);
     }
 
-    private static int hSort(int[] array, int h) {
-        int count = 0;
+    private static ResultSort hSort(int[] array, int h) {
+        int countPerm = 0;
+        int countComp = 0;
         int length = array.length;
         for (int i = h; i < length; i++) {
             for (int j = i; j >= h; j = j - h) {
+                countComp++;
                 if (array[j] < array[j - h]) {
                     swap(array, j, j - h);
-                    count++;
+                    countPerm++;
                 }
                 else
                     break;
             }
         }
-        return count;
+        return new ResultSort(array, countComp, countPerm);
     }
 
     private static void swap(int[] arr, int a, int b) {
@@ -90,18 +95,22 @@ public class Main {
 
     public static ResultSort sortBubble(int[] sortableArr) {
         int[] array = sortableArr.clone();
-        int count = 0;
+        int countComp = 0;
+        int countPerm = 0;
         boolean isSorted = false;
+        int j = 0;
         while(!isSorted) {
             isSorted = true;
-            for (int i = 0; i < array.length - 1; i++) {
+            for (int i = 0; i < array.length - 1 - j; i++) {
+                countComp++;
                 if (array[i] > array[i + 1]) {
                     isSorted = false;
                     swap(array, i, i + 1);
-                    count++;
+                    countPerm++;
                 }
             }
+            j++;
         }
-        return new ResultSort(array, count);
+        return new ResultSort(array, countComp, countPerm);
     }
 }

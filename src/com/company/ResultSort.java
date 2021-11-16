@@ -2,11 +2,13 @@ package com.company;
 
 public class ResultSort {
     private int[] arr;
-    private int count;
+    private int countComparison ;
+    private int countPermutation;
 
-    public ResultSort(int[] arr, int count) {
+    public ResultSort(int[] arr, int countComparison, int countPermutation) {
         this.arr = arr;
-        this.count = count;
+        this.countComparison = countComparison;
+        this.countPermutation = countPermutation;
     }
 
     public int[] getArr() {
@@ -17,11 +19,19 @@ public class ResultSort {
         this.arr = arr;
     }
 
-    public int getCount() {
-        return count;
+    public int getCountComparison() {
+        return countComparison;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setCountComparison(int countComparison) {
+        this.countComparison = countComparison;
+    }
+
+    public int getCountPermutation() {
+        return countPermutation;
+    }
+
+    public void setCountPermutation(int countPermutation) {
+        this.countPermutation = countPermutation;
     }
 }
